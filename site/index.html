@@ -1,0 +1,131 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Awesome Codex Plugins</title>
+  <meta name="description" content="A curated list of awesome OpenAI Codex plugins, skills, and resources.">
+  <link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='.9em' font-size='90'>🧩</text></svg>">
+  <style>
+    :root { --bg: #0d1117; --card: #161b22; --border: #30363d; --text: #c9d1d9; --muted: #8b949e; --accent: #58a6ff; --green: #3fb950; }
+    * { margin: 0; padding: 0; box-sizing: border-box; }
+    body { font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Helvetica, Arial, sans-serif; background: var(--bg); color: var(--text); line-height: 1.6; }
+    .container { max-width: 900px; margin: 0 auto; padding: 2rem 1.5rem; }
+    header { text-align: center; padding: 3rem 0 2rem; border-bottom: 1px solid var(--border); margin-bottom: 2rem; }
+    header h1 { font-size: 2rem; color: #fff; margin-bottom: 0.5rem; }
+    header h1 span { color: var(--accent); }
+    header p { color: var(--muted); font-size: 0.95rem; max-width: 600px; margin: 0 auto; }
+    .badge-row { display: flex; justify-content: center; gap: 0.5rem; margin-top: 1rem; flex-wrap: wrap; }
+    .badge { display: inline-flex; align-items: center; gap: 0.3rem; padding: 0.2rem 0.6rem; border-radius: 9999px; font-size: 0.75rem; text-decoration: none; }
+    .badge-green { background: rgba(63,185,80,0.15); color: var(--green); border: 1px solid rgba(63,185,80,0.3); }
+    .badge-blue { background: rgba(88,166,255,0.15); color: var(--accent); border: 1px solid rgba(88,166,255,0.3); }
+    section { margin-bottom: 2.5rem; }
+    h2 { font-size: 1.2rem; color: #fff; margin-bottom: 1rem; padding-bottom: 0.5rem; border-bottom: 1px solid var(--border); }
+    h3 { font-size: 0.85rem; color: var(--muted); text-transform: uppercase; letter-spacing: 0.05em; margin-bottom: 0.75rem; margin-top: 1.5rem; }
+    .plugin-grid { display: grid; grid-template-columns: 1fr; gap: 0.5rem; }
+    .plugin { display: flex; align-items: flex-start; gap: 0.75rem; padding: 0.75rem 1rem; background: var(--card); border: 1px solid var(--border); border-radius: 8px; text-decoration: none; color: var(--text); transition: border-color 0.2s; }
+    .plugin:hover { border-color: var(--accent); }
+    .plugin-icon { font-size: 1.2rem; flex-shrink: 0; margin-top: 0.1rem; }
+    .plugin-info { flex: 1; min-width: 0; }
+    .plugin-name { color: #fff; font-weight: 600; font-size: 0.9rem; }
+    .plugin-desc { color: var(--muted); font-size: 0.82rem; margin-top: 0.15rem; }
+    .plugin-meta { font-size: 0.7rem; color: var(--muted); opacity: 0.7; margin-top: 0.25rem; }
+    .official-badge { display: inline-block; font-size: 0.6rem; background: rgba(88,166,255,0.15); color: var(--accent); padding: 0.1rem 0.4rem; border-radius: 4px; margin-left: 0.4rem; vertical-align: middle; }
+    footer { text-align: center; padding: 2rem 0; border-top: 1px solid var(--border); color: var(--muted); font-size: 0.8rem; }
+    footer a { color: var(--accent); text-decoration: none; }
+    .search-box { width: 100%; padding: 0.65rem 1rem; background: var(--card); border: 1px solid var(--border); border-radius: 8px; color: var(--text); font-size: 0.9rem; margin-bottom: 2rem; outline: none; }
+    .search-box:focus { border-color: var(--accent); }
+    .search-box::placeholder { color: var(--muted); }
+    .empty { text-align: center; color: var(--muted); padding: 2rem; display: none; }
+    @media (min-width: 600px) { .plugin-grid { grid-template-columns: 1fr 1fr; } }
+  </style>
+</head>
+<body>
+  <div class="container">
+    <header>
+      <h1>Awesome <span>Codex Plugins</span> 🧩</h1>
+      <p>A curated list of OpenAI Codex plugins, skills, and resources. All community plugins verified to include a valid .codex-plugin manifest.</p>
+      <div class="badge-row">
+        <a href="https://github.com/internet-dot/awesome-codex-plugins" class="badge badge-blue">⭐ GitHub</a>
+        <a href="https://github.com/internet-dot/awesome-codex-plugins/blob/main/CONTRIBUTING.md" class="badge badge-green">Submit a Plugin</a>
+        <a href="https://opensource.org/licenses/Apache-2.0" class="badge badge-green">Apache 2.0</a>
+      </div>
+    </header>
+
+    <input type="text" class="search-box" id="search" placeholder="Search plugins..." autocomplete="off">
+
+    <div class="plugin-grid" id="plugins"></div>
+    <div class="empty" id="empty">No plugins found.</div>
+
+    <footer>
+      <p>Maintained by <a href="https://github.com/internet-dot">internet-dot</a>. <a href="https://github.com/internet-dot/awesome-codex-plugins">PRs welcome</a>.</p>
+    </footer>
+  </div>
+
+  <script>
+    const plugins = [
+      { name: "Box", desc: "Access and manage files", author: "OpenAI", url: "https://developers.openai.com/codex/plugins", official: true },
+      { name: "Cloudflare", desc: "Manage Workers, Pages, DNS, and infrastructure", author: "OpenAI", url: "https://developers.openai.com/codex/plugins", official: true },
+      { name: "Figma", desc: "Inspect designs, extract specs, and document components", author: "OpenAI", url: "https://developers.openai.com/codex/plugins", official: true },
+      { name: "GitHub", desc: "Review changes, manage issues, and interact with repositories", author: "OpenAI", url: "https://developers.openai.com/codex/plugins", official: true },
+      { name: "Gmail", desc: "Read, search, and compose emails", author: "OpenAI", url: "https://developers.openai.com/codex/plugins", official: true },
+      { name: "Google Drive", desc: "Edit and manage files in Google Drive", author: "OpenAI", url: "https://developers.openai.com/codex/plugins", official: true },
+      { name: "Hugging Face", desc: "Browse models, datasets, and spaces", author: "OpenAI", url: "https://developers.openai.com/codex/plugins", official: true },
+      { name: "Linear", desc: "Create and manage issues, projects, and workflows", author: "OpenAI", url: "https://developers.openai.com/codex/plugins", official: true },
+      { name: "Notion", desc: "Create and edit pages, databases, and content", author: "OpenAI", url: "https://developers.openai.com/codex/plugins", official: true },
+      { name: "Sentry", desc: "Monitor errors, triage issues, and track performance", author: "OpenAI", url: "https://developers.openai.com/codex/plugins", official: true },
+      { name: "Slack", desc: "Send messages, search channels, manage conversations", author: "OpenAI", url: "https://developers.openai.com/codex/plugins", official: true },
+      { name: "Vercel", desc: "Deploy, preview, and manage Vercel projects", author: "OpenAI", url: "https://developers.openai.com/codex/plugins", official: true },
+      { name: "Registry Broker", desc: "Delegate tasks to specialist AI agents via the HOL Registry", author: "HOL", url: "https://github.com/hashgraph-online/registry-broker-codex-plugin", official: false },
+      { name: "Project Autopilot", desc: "Turn an idea into a structured project workflow", author: "AlexMi64", url: "https://github.com/AlexMi64/codex-project-autopilot", official: false },
+      { name: "Codex Reviewer", desc: "Second-pass review of Claude-driven plans and implementations", author: "schuettc", url: "https://github.com/schuettc/codex-reviewer", official: false },
+      { name: "HOTL Plugin", desc: "Human-on-the-Loop AI coding workflows with planning, review, and verification", author: "yimwoo", url: "https://github.com/yimwoo/hotl-plugin", official: false },
+      { name: "AgentOps", desc: "DevOps layer for coding agents with flow, feedback, and memory", author: "boshu2", url: "https://github.com/boshu2/agentops", official: false },
+      { name: "Chrome DevTools", desc: "One-click Codex plugin wrapper for chrome-devtools-mcp", author: "win4r", url: "https://github.com/win4r/chrome-devtools-codex-plugin", official: false },
+      { name: "Launch Fast", desc: "Official Launch Fast plugin adapter for rapid SaaS deployment", author: "BlockchainHB", url: "https://github.com/BlockchainHB/launchfast_codex_plugin", official: false },
+      { name: "PapersFlow", desc: "Paper discovery, citation verification, and DeepScan analysis", author: "papersflow-ai", url: "https://github.com/papersflow-ai/papersflow-codex-plugin", official: false },
+      { name: "Apple Productivity", desc: "Local Apple Calendar and Reminders tooling for macOS", author: "matk0shub", url: "https://github.com/matk0shub/apple-productivity-mcp", official: false },
+      { name: "Yandex Direct", desc: "Codex plugin bundle for Yandex Direct, Wordstat, Metrika, and Roistat", author: "nebelov", url: "https://github.com/nebelov/yandex-direct-for-all", official: false },
+      { name: "OpenProject", desc: "Team collaboration via OpenProject integration", author: "varaprasadreddy9676", url: "https://github.com/varaprasadreddy9676/team-codex-plugins", official: false },
+      { name: "OrgX", desc: "MCP access and initiative-aware skills for organizational workflows", author: "useorgx", url: "https://github.com/useorgx/orgx-codex-plugin", official: false },
+      { name: "Codex Mem", desc: "Automatically capture, compress, and inject session context", author: "2kDarki", url: "https://github.com/2kDarki/codex-mem", official: false },
+      { name: "Codex Be Serious", desc: "Enforce formal, textbook-grade written register across all agent output", author: "lulucatdev", url: "https://github.com/lulucatdev/codex-be-serious", official: false }
+    ];
+
+    const grid = document.getElementById('plugins');
+    const empty = document.getElementById('empty');
+    const search = document.getElementById('search');
+
+    function render(list) {
+      if (list.length === 0) {
+        grid.style.display = 'none';
+        empty.style.display = 'block';
+        return;
+      }
+      grid.style.display = '';
+      empty.style.display = 'none';
+      grid.innerHTML = list.map(p => `
+        <a href="${p.url}" class="plugin" target="_blank" rel="noopener">
+          <div class="plugin-icon">${p.official ? '🔵' : '🟢'}</div>
+          <div class="plugin-info">
+            <div class="plugin-name">${p.name}${p.official ? '<span class="official-badge">Official</span>' : ''}</div>
+            <div class="plugin-desc">${p.desc}</div>
+            <div class="plugin-meta">${p.author}</div>
+          </div>
+        </a>
+      `).join('');
+    }
+
+    render(plugins);
+
+    search.addEventListener('input', () => {
+      const q = search.value.toLowerCase();
+      render(plugins.filter(p =>
+        p.name.toLowerCase().includes(q) ||
+        p.desc.toLowerCase().includes(q) ||
+        p.author.toLowerCase().includes(q)
+      ));
+    });
+  </script>
+</body>
+</html>
