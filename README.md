@@ -31,9 +31,8 @@
 
 ## Official Plugins
 
-Curated by OpenAI and available in the built-in Codex Plugin Directory.
-
-Official plugins available in the [built-in Codex Plugin Directory](https://developers.openai.com/codex/plugins):
+<details>
+<summary>Curated by OpenAI — available in the built-in Codex Plugin Directory</summary>
 
 - Box - Access and manage files.
 - Cloudflare - Manage Workers, Pages, DNS, and infrastructure.
@@ -47,6 +46,8 @@ Official plugins available in the [built-in Codex Plugin Directory](https://deve
 - Sentry - Monitor errors, triage issues, and track performance.
 - Slack - Send messages, search channels, manage conversations.
 - Vercel - Deploy, preview, and manage Vercel projects.
+
+</details>
 
 ## Community Plugins
 
