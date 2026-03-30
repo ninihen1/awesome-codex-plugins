@@ -6,6 +6,7 @@ Usage:
 
 This should be run after any change to the plugin list in README.md.
 """
+import datetime
 import json
 import re
 from pathlib import Path
@@ -26,7 +27,9 @@ def parse_plugins(readme_path: Path) -> list[dict]:
             end = i
             break
 
-    if start is None or end is None:
+    if end is None:
+        end = len(lines)
+    if start is None:
         raise ValueError("Could not find Community Plugins section")
 
     section = lines[start:end]
@@ -50,6 +53,7 @@ def parse_plugins(readme_path: Path) -> list[dict]:
             if key in seen:
                 continue
             seen.add(key)
+            # TODO: Detect default branch via GitHub API; some repos use 'master' or other names
             plugins.append(
                 {
                     "name": m.group(1),
@@ -67,8 +71,6 @@ def parse_plugins(readme_path: Path) -> list[dict]:
 
 
 def main():
-    import datetime
-
     plugins = parse_plugins(README)
     data = {
         "$schema": "https://json-schema.org/draft/2020-12/schema",

@@ -5,11 +5,13 @@ on:
     paths:
       - README.md
       - plugins.json
+      - scripts/generate_plugins_json.py
   push:
     branches: [main]
     paths:
       - README.md
       - plugins.json
+      - scripts/generate_plugins_json.py
 
 jobs:
   validate:
