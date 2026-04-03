@@ -180,6 +180,16 @@
       "install_url": "https://raw.githubusercontent.com/2kDarki/codex-mem/main/.codex-plugin/plugin.json"
     },
     {
+      "name": "Codex SEO",
+      "url": "https://github.com/BestLemoon/codex-seo",
+      "owner": "BestLemoon",
+      "repo": "codex-seo",
+      "description": "Full-stack SEO audits, Google API workflows, backlinks analysis, reporting, and optional MCP extensions for Codex.",
+      "category": "Tools & Integrations",
+      "source": "awesome-codex-plugins",
+      "install_url": "https://raw.githubusercontent.com/BestLemoon/codex-seo/main/.codex-plugin/plugin.json"
+    },
+    {
       "name": "Context Pack",
       "url": "https://github.com/Rothschildiuk/context-pack",
       "owner": "Rothschildiuk",
