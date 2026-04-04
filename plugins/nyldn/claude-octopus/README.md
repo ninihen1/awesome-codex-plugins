@@ -10,7 +10,7 @@ Every AI model has blind spots. Claude Octopus puts up to eight of them on every
   <a href="https://claude.ai"><img src="https://img.shields.io/badge/Claude-Built_with_AI-c96442?logo=data:image/svg%2bxml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHZpZXdCb3g9IjAgMCAyNCAyNCI+PHBhdGggZmlsbD0iI2ZmZiIgZD0iTTEyIDJhMTAgMTAgMCAxIDAgMCAyMCAxMCAxMCAwIDAgMCAwLTIwbTAgMS44YTEuMiAxLjIgMCAwIDEgLjg1LjM1bDEuNSA0LjVhLjYuNiAwIDAgMCAuMzUuMzVsNC41IDEuNWExLjIgMS4yIDAgMCAxIDAgMi4yN2wtNC41IDEuNWEuNi42IDAgMCAwLS4zNS4zNWwtMS41IDQuNWExLjIgMS4yIDAgMCAxLTIuMjcgMGwtMS41LTQuNWEuNi42IDAgMCAwLS4zNS0uMzVsLTQuNS0xLjVhMS4yIDEuMiAwIDAgMSAwLTIuMjdsNC41LTEuNWEuNi42IDAgMCAwIC4zNS0uMzVsMS41LTQuNUExLjIgMS4yIDAgMCAxIDEyIDMuOCIvPjwvc3ZnPg==&labelColor=333" alt="Built with Claude"></a>
   <a href="https://github.com/nyldn/claude-octopus/actions/workflows/test.yml"><img src="https://github.com/nyldn/claude-octopus/actions/workflows/test.yml/badge.svg" alt="Tests"></a>
   <img src="https://img.shields.io/badge/Tests-146_passing-brightgreen" alt="146 tests passing">
-  <img src="https://img.shields.io/badge/Version-9.18.1-blue" alt="Version 9.18.1">
+  <img src="https://img.shields.io/badge/Version-9.19.3-blue" alt="Version 9.19.3">
   <img src="https://img.shields.io/badge/Claude_Code-v2.1.83+-blueviolet" alt="Requires Claude Code v2.1.83+">
   <img src="https://img.shields.io/badge/License-MIT-green" alt="MIT License">
 </p>
@@ -35,7 +35,7 @@ Every AI model has blind spots. Claude Octopus puts up to eight of them on every
 
 | Version | Best Features |
 |---------|--------------|
-| **v9** (current) | Up to 8 providers (Codex, Gemini, Copilot, Qwen, Ollama, Perplexity, OpenRouter, OpenCode). Four-way AI debates. Smart router — just say what you need. Discipline mode with 8 auto-invoke gates. Two-stage review (spec compliance then code quality). Circuit breakers with automatic provider recovery. Cursor + OpenCode + Codex cross-compatibility. Effort-aware skills save tokens automatically. RTK integration for 60-90% bash output token savings with HUD visibility. |
+| **v9** (current) | Up to 8 providers (Codex, Gemini, Copilot, Qwen, Ollama, Perplexity, OpenRouter, OpenCode). Four-way AI debates. Smart router — just say what you need. Discipline mode with 8 auto-invoke gates. Two-stage review. Circuit breakers with automatic provider recovery. Cursor + OpenCode + Codex cross-compatibility. Token compression: `bin/octo-compress` pipe + auto PostToolUse hook save ~7,300 tokens/session. PostCompact context recovery. `bin/octopus` CLI. 122 CC feature flags through v2.1.91. |
 | **v8** | Multi-LLM code review with inline PR comments. Parallel workstreams in isolated git worktrees. Reaction engine — auto-responds to CI failures. 32 specialized personas. Dark Factory autonomous pipeline. |
 | **v7** | Double Diamond workflow. Multi-provider dispatch. Quality gates and consensus scoring. Configurable sandbox modes. |
 
@@ -88,6 +88,7 @@ cd ~/.cursor/claude-octopus/mcp-server && npm install
       "command": "npx",
       "args": ["tsx", "${userHome}/.cursor/claude-octopus/mcp-server/src/index.ts"],
       "env": {
+        "OCTO_CLAW_ENABLED": "true",
         "OPENAI_API_KEY": "${env:OPENAI_API_KEY}",
         "GEMINI_API_KEY": "${env:GEMINI_API_KEY}"
       }
@@ -209,7 +210,7 @@ Not sure which command to use? Pick by goal:
 | Write a product spec | `/octo:prd` |
 | Go from spec to shipping code | `/octo:factory` |
 | Debug a tricky issue | `/octo:debug` |
-| Reduce token usage | `/octo:optimize` |
+| Reduce token usage | `/octo:doctor` (includes RTK install + token tips) |
 | Just run something quick | `/octo:quick` |
 
 Or skip the table — type `/octo:auto <what you want>` or just say `octo <what you want>`, and the smart router picks for you. 🔍
@@ -358,7 +359,26 @@ Three components, zero changes to the core plugin:
 
 ### MCP Server
 
-The MCP server auto-starts when the plugin is enabled (via `.mcp.json`). It exposes:
+The MCP server is **opt-in** — it does not start automatically. This prevents a permanent `✘ failed` status in Claude Code's `/mcp` panel for users who don't need it.
+
+To enable it, add the server to your project's `.mcp.json` or global Claude Code settings:
+
+```json
+{
+  "mcpServers": {
+    "octo-claw": {
+      "command": "node",
+      "args": ["--require", "./mcp-server/check-node-version.js", "./mcp-server/dist/index.js"],
+      "cwd": "<path-to-claude-octopus>",
+      "env": {
+        "OCTO_CLAW_ENABLED": "true"
+      }
+    }
+  }
+}
+```
+
+Once enabled, it exposes:
 
 - `octopus_discover`, `octopus_define`, `octopus_develop`, `octopus_deliver` — Individual phases
 - `octopus_embrace` — Full Double Diamond workflow
